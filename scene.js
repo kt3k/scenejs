@@ -4,9 +4,9 @@
  * license: MIT License ( http://kt3k.mit-license.org/ )
  */
 
- /**
-  * define yggs scene interface
-  */
+/**
+ * define yggs scene interface
+ */
 
 window.scene = (function () {
 
@@ -15,28 +15,23 @@ window.scene = (function () {
 
     var pt = scene.prototype;
 
-    var IS_STOPPED = 0;
-    var IS_STARTING = 1;
-    var IS_RUNNING = 2;
-    var IS_STOPPING = 3;
-
-    pt.state = IS_STOPPED;
+    pt.state = exports.IS_STOPPED;
 
     pt.stateChange = function () {
     };
 
     pt.methodOnStart = function (onStart) {
         return function (done, fail) {
-            if (this.state !== IS_STOPPED) {
+            if (this.state !== exports.IS_STOPPED) {
                 throw 'failed to start the scene: scene is not stopped, state = ' + this.state;
             }
 
-            this.state = IS_STARTING;
+            this.state = exports.IS_STARTING;
 
             var self = this;
 
             var wrappedDone = function () {
-                self.state = IS_RUNNING;
+                self.state = exports.IS_RUNNING;
                 done();
             };
 
@@ -46,16 +41,16 @@ window.scene = (function () {
 
     pt.methodOnStop = function (onStop) {
         return function (done, fail) {
-            if (this.state !== IS_RUNNING) {
+            if (this.state !== exports.IS_RUNNING) {
                 throw 'failed to stop the scene: scene is not running, state = ' + this.state;
             }
 
-            this.state = IS_STOPPING;
+            this.state = exports.IS_STOPPING;
 
             var self = this;
 
             var wrappedDone = function () {
-                self.state = IS_STOPPED;
+                self.state = exports.IS_STOPPED;
                 done();
             };
 
@@ -77,5 +72,11 @@ window.scene = (function () {
 
     exports.prototype = pt;
 
+    exports.IS_STOPPED = 0;
+    exports.IS_STARTING = 1;
+    exports.IS_RUNNING = 2;
+    exports.IS_STOPPING = 3;
+
     return exports;
+
 }());
