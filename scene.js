@@ -38,7 +38,7 @@ window.scene = (function () {
             var wrappedDone = function () {
                 self.state = IS_RUNNING;
                 done();
-            }
+            };
 
             onStart.call(this, wrappedDone, fail);
         };
@@ -59,13 +59,15 @@ window.scene = (function () {
                 done();
             };
 
-            onStop.call(this, wrappedDone, fail)
+            onStop.call(this, wrappedDone, fail);
         };
     };
 
     pt.onStart = null;
 
     pt.onStop = null;
+
+    pt.onConfirm = null;
 
     var exports = function (args) {
         return new scene(args);
