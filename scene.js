@@ -11,11 +11,10 @@
 window.scene = (function () {
 
     var scene = function (args) {
+       this.state = exports.IS_STOPPED;
     };
 
     var pt = scene.prototype;
-
-    pt.state = exports.IS_STOPPED;
 
     pt.stateChange = function () {
     };
