@@ -11,7 +11,7 @@
 window.scene = (function () {
 
     var scene = function (args) {
-       this.state = exports.IS_STOPPED;
+       this.state = exports.IS_ABSENT;
     };
 
     var pt = scene.prototype;
@@ -19,47 +19,47 @@ window.scene = (function () {
     pt.stateChange = function () {
     };
 
-    pt.methodOnStart = function (onStart) {
+    pt.methodOnEnter = function (onEnter) {
         return function (done, fail) {
-            if (this.state !== exports.IS_STOPPED) {
+            if (this.state !== exports.IS_ABSENT) {
                 throw 'failed to start the scene: scene is not stopped, state = ' + this.state;
             }
 
-            this.state = exports.IS_STARTING;
+            this.state = exports.IS_ENTERING;
 
             var self = this;
 
             var wrappedDone = function () {
-                self.state = exports.IS_RUNNING;
+                self.state = exports.IS_PRESENT;
                 done();
             };
 
-            onStart.call(this, wrappedDone, fail);
+            onEnter.call(this, wrappedDone, fail);
         };
     };
 
-    pt.methodOnStop = function (onStop) {
+    pt.methodOnExit = function (onExit) {
         return function (done, fail) {
-            if (this.state !== exports.IS_RUNNING) {
+            if (this.state !== exports.IS_PRESENT) {
                 throw 'failed to stop the scene: scene is not running, state = ' + this.state;
             }
 
-            this.state = exports.IS_STOPPING;
+            this.state = exports.IS_EXITTING;
 
             var self = this;
 
             var wrappedDone = function () {
-                self.state = exports.IS_STOPPED;
+                self.state = exports.IS_ABSENT;
                 done();
             };
 
-            onStop.call(this, wrappedDone, fail);
+            onExit.call(this, wrappedDone, fail);
         };
     };
 
-    pt.onStart = null;
+    pt.onEnter = null;
 
-    pt.onStop = null;
+    pt.onExit = null;
 
     pt.onConfirmExit = function (reply) {
         var answer = true;
@@ -83,10 +83,10 @@ window.scene = (function () {
 
     exports.prototype = pt;
 
-    exports.IS_STOPPED = 0;
-    exports.IS_STARTING = 1;
-    exports.IS_RUNNING = 2;
-    exports.IS_STOPPING = 3;
+    exports.IS_ABSENT = 0;
+    exports.IS_ENTERING = 1;
+    exports.IS_PRESENT = 2;
+    exports.IS_EXITTING = 3;
 
     return exports;
 
