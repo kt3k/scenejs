@@ -61,7 +61,19 @@ window.scene = (function () {
 
     pt.onStop = null;
 
-    pt.onConfirm = null;
+    pt.onConfirmExit = function (reply) {
+        var answer = true;
+
+        if (this.needConfirmExit) {
+            answer = window.confirm(this.confirmExitMessage);
+        }
+
+        reply(answer);
+    };
+
+    pt.msgConfirmExit = 'Is it ok to leave this page?';
+
+    pt.needConfirmExit = false;
 
     var exports = function (args) {
         return new scene(args);
