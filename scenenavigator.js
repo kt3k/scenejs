@@ -7,50 +7,24 @@
 window.sceneNavigator = (function () {
     'use strict';
 
-    var sceneNavigator = function (scenes) {
-        this.state = exports.IS_IDLING;
+    var sceneNavigator = function (scene) {
+        this.setIdling();
 
-        if (scenes instanceof Array) {
-            scenes.forEach(function (scene) {
-                try {
-                    self.addScene(scene);
-                } catch (e) {
-                    console.error(e);
-                }
-            });
+        if (this.isScene(scene)) {
+            this.go(scene);
         }
     };
 
     var pt = sceneNavigator.prototype;
 
-    pt.addScene = function (scene) {
-        var id = scene.id;
-
-        if (id == null) {
-            throw Error('failed to add a scene: scene id is null.');
-        }
-
-        if (this.table[id] != null) {
-            throw Error('failed to add a scene: scene is already added.');
-        }
-
-        this.table[id] = scene;
-    };
-
-    pt.go = function (id) {
-        this.setNextScene(this.getSceneById(id));
+    pt.go = function (scene) {
+        this.setNextScene(scene);
 
         this.checkState();
     };
 
-    pt.getSceneById = function (id) {
-        var scene = this.table[id];
-
-        if (scene == null) {
-            throw Error('failed to go to the scene: scene id does not exist.');
-        }
-
-        return scene;        
+    pt.isScene = function (scene) {
+        return scene instanceof window.scene;
     };
 
     pt.setNextScene = function (scene) {
@@ -94,7 +68,7 @@ window.sceneNavigator = (function () {
         if (this.currentScene == null) {
             this.enter();
         } else {
-            this.confirm();
+            this.confirmExit();
         }
     };
 
@@ -106,9 +80,14 @@ window.sceneNavigator = (function () {
                 self.exit();
             } else {
                 self.clearNextScene();
-                self.cancel();
+                self.confirmExitCancel();
             }
         });
+    };
+
+    pt.confirmExitCancel = function () {
+        this.setIdling();
+        this.clearNextScene();
     };
 
     pt.exit = function () {
@@ -130,11 +109,6 @@ window.sceneNavigator = (function () {
     };
 
     pt.enterComplete = function () {
-        this.setIdling();
-        this.checkState();
-    };
-
-    pt.cancel = function () {
         this.setIdling();
         this.checkState();
     };
