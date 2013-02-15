@@ -64,7 +64,7 @@ window.scene = (function () {
     pt.onConfirmExit = function (reply) {
         var answer = true;
 
-        if (this.exitConfrimNeeded) {
+        if (this.exitConfirmNeeded) {
             answer = window.confirm(this.exitConfirmMessage);
         }
 
@@ -73,7 +73,7 @@ window.scene = (function () {
 
     pt.exitConfirmMessage = 'Is it ok to leave this page?';
 
-    pt.exitConfrimNeeded = false;
+    pt.exitConfirmNeeded = false;
 
     var exports = function (args) {
         return new scene(args);
