@@ -75,7 +75,7 @@ window.sceneNavigator = (function () {
     pt.confirmExit = function () {
         var self = this;
 
-        this.currentScene.onConfirm(function (yes) {
+        this.currentScene.onConfirmExit(function (yes) {
             if (yes) {
                 self.exit();
             } else {
