@@ -95,7 +95,7 @@ window.sceneNavigator = (function () {
 
         this.currentScene.onExit(function () {
             self.enter();
-        })
+        });
     };
 
     pt.enter = function () {
