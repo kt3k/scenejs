@@ -64,16 +64,16 @@ window.scene = (function () {
     pt.onConfirmExit = function (reply) {
         var answer = true;
 
-        if (this.needConfirmExit) {
-            answer = window.confirm(this.confirmExitMessage);
+        if (this.exitConfrimNeeded) {
+            answer = window.confirm(this.exitConfirmMessage);
         }
 
         reply(answer);
     };
 
-    pt.msgConfirmExit = 'Is it ok to leave this page?';
+    pt.exitConfirmMessage = 'Is it ok to leave this page?';
 
-    pt.needConfirmExit = false;
+    pt.exitConfrimNeeded = false;
 
     var exports = function (args) {
         return new scene(args);
