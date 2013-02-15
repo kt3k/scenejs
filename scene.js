@@ -1,6 +1,6 @@
 /**
  * scene.js 0.1.0
- * author: Yosiya Hinosawa ( @kt3k ) 
+ * author: Yosiya Hinosawa ( @kt3k )
  * license: MIT License ( http://kt3k.mit-license.org/ )
  */
 
@@ -9,9 +9,9 @@
  */
 
 window.scene = (function () {
+    'use strict';
 
-    var scene = function (args) {
-       this.state = exports.IS_ABSENT;
+    var scene = function () {
     };
 
     var pt = scene.prototype;
@@ -87,6 +87,8 @@ window.scene = (function () {
     exports.IS_ENTERING = 1;
     exports.IS_PRESENT = 2;
     exports.IS_EXITTING = 3;
+
+    pt.state = exports.IS_ABSENT;
 
     return exports;
 
