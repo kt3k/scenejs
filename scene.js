@@ -20,7 +20,7 @@ window.scene = (function () {
     };
 
     pt.methodOnEnter = function (onEnter) {
-        return function (done, fail) {
+        return function (done) {
             if (this.state !== exports.IS_ABSENT) {
                 throw 'failed to start the scene: scene is not stopped, state = ' + this.state;
             }
@@ -34,12 +34,12 @@ window.scene = (function () {
                 done();
             };
 
-            onEnter.call(this, wrappedDone, fail);
+            onEnter.call(this, wrappedDone);
         };
     };
 
     pt.methodOnExit = function (onExit) {
-        return function (done, fail) {
+        return function (done) {
             if (this.state !== exports.IS_PRESENT) {
                 throw 'failed to stop the scene: scene is not running, state = ' + this.state;
             }
@@ -53,7 +53,7 @@ window.scene = (function () {
                 done();
             };
 
-            onExit.call(this, wrappedDone, fail);
+            onExit.call(this, wrappedDone);
         };
     };
 
