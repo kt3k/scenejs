@@ -71,7 +71,7 @@ window.scene = (function () {
         reply(answer);
     };
 
-    pt.exitConfirmMessage = 'Is it ok to leave this page?';
+    pt.exitConfirmMessage = 'Do you want to leave this scene?';
 
     pt.exitConfirmNeeded = false;
 
