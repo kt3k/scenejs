@@ -11,13 +11,22 @@
 window.scene = (function () {
     'use strict';
 
-    var scene = function () {
+    var scene = function () {};
+
+    var exports = function (args) {
+        return new scene(args);
     };
 
-    var pt = scene.prototype;
+    var pt = scene.prototype = exports.prototype = {constructor: exports};
 
-    pt.stateChange = function () {
-    };
+    exports.IS_ABSENT = 0;
+    exports.IS_ENTERING = 1;
+    exports.IS_PRESENT = 2;
+    exports.IS_EXITTING = 3;
+
+    pt.state = exports.IS_ABSENT;
+
+    pt.stateChange = function () {};
 
     pt.methodOnEnter = function (onEnter) {
         return function (done) {
@@ -75,21 +84,5 @@ window.scene = (function () {
 
     pt.exitConfirmNeeded = false;
 
-    var exports = function (args) {
-        return new scene(args);
-    };
-
-    pt.constructor = exports;
-
-    exports.prototype = pt;
-
-    exports.IS_ABSENT = 0;
-    exports.IS_ENTERING = 1;
-    exports.IS_PRESENT = 2;
-    exports.IS_EXITTING = 3;
-
-    pt.state = exports.IS_ABSENT;
-
     return exports;
-
 }());
