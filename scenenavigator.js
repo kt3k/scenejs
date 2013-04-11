@@ -11,7 +11,14 @@ window.sceneNavigator = (function () {
         this.setIdling();
     };
 
-    var pt = sceneNavigator.prototype;
+    var exports = function () {
+        return new sceneNavigator();
+    };
+
+    exports.IS_IDLING = 0;
+    exports.IS_TRANSITIONING = 1;
+
+    var pt = sceneNavigator.prototype = exports.prototype = {constructor: exports};
 
     pt.go = function (scene) {
         this.setNextScene(scene);
@@ -108,17 +115,5 @@ window.sceneNavigator = (function () {
         this.checkState();
     };
 
-    var exports = function () {
-        return new sceneNavigator();
-    };
-
-    exports.IS_IDLING = 0;
-    exports.IS_TRANSITIONING = 1;
-
-    pt.constructor = exports;
-
-    exports.prototype = pt;
-
     return exports;
-
 }());
