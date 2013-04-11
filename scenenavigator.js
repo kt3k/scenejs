@@ -7,12 +7,8 @@
 window.sceneNavigator = (function () {
     'use strict';
 
-    var sceneNavigator = function (scene) {
+    var sceneNavigator = function () {
         this.setIdling();
-
-        if (this.isScene(scene)) {
-            this.go(scene);
-        }
     };
 
     var pt = sceneNavigator.prototype;
@@ -112,8 +108,8 @@ window.sceneNavigator = (function () {
         this.checkState();
     };
 
-    var exports = function (args) {
-        return new sceneNavigator(args);
+    var exports = function () {
+        return new sceneNavigator();
     };
 
     exports.IS_IDLING = 0;
