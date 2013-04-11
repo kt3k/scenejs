@@ -18,54 +18,54 @@ window.sceneNavigator = (function () {
     exports.IS_IDLING = 0;
     exports.IS_TRANSITIONING = 1;
 
-    var pt = sceneNavigator.prototype = exports.prototype = {constructor: exports};
+    var sceneNavigatorPt = sceneNavigator.prototype = exports.prototype = {constructor: exports};
 
-    pt.go = function (scene) {
+    sceneNavigatorPt.go = function (scene) {
         this.setNextScene(scene);
 
         this.checkState();
     };
 
-    pt.isScene = function (scene) {
+    sceneNavigatorPt.isScene = function (scene) {
         return scene instanceof window.scene;
     };
 
-    pt.setNextScene = function (scene) {
+    sceneNavigatorPt.setNextScene = function (scene) {
         this.nextScene = scene;
     };
 
-    pt.changeToNextScene = function () {
+    sceneNavigatorPt.changeToNextScene = function () {
         this.currentScene = this.nextScene;
         this.clearNextScene();
     };
 
-    pt.clearNextScene = function () {
+    sceneNavigatorPt.clearNextScene = function () {
         this.nextScene = null;
     };
 
-    pt.hasNextScene = function () {
+    sceneNavigatorPt.hasNextScene = function () {
         return this.nextScene != null;
     };
 
-    pt.isIdling = function () {
+    sceneNavigatorPt.isIdling = function () {
         return this.state === exports.IS_IDLING;
     };
 
-    pt.setIdling = function () {
+    sceneNavigatorPt.setIdling = function () {
         this.state = exports.IS_IDLING;
     };
 
-    pt.setTransitioning = function () {
+    sceneNavigatorPt.setTransitioning = function () {
         this.state = exports.IS_TRANSITIONING;
     };
 
-    pt.checkState = function () {
+    sceneNavigatorPt.checkState = function () {
         if (this.hasNextScene() && this.isIdling()) {
             this.transition();
         }
     };
 
-    pt.transition = function () {
+    sceneNavigatorPt.transition = function () {
         this.setTransitioning();
 
         if (this.currentScene == null) {
@@ -75,7 +75,7 @@ window.sceneNavigator = (function () {
         }
     };
 
-    pt.confirmExit = function () {
+    sceneNavigatorPt.confirmExit = function () {
         var self = this;
 
         this.currentScene.onConfirmExit(function (yes) {
@@ -87,12 +87,12 @@ window.sceneNavigator = (function () {
         });
     };
 
-    pt.confirmExitCancel = function () {
+    sceneNavigatorPt.confirmExitCancel = function () {
         this.setIdling();
         this.clearNextScene();
     };
 
-    pt.exit = function () {
+    sceneNavigatorPt.exit = function () {
         var self = this;
 
         this.currentScene.onExit(function () {
@@ -100,7 +100,7 @@ window.sceneNavigator = (function () {
         });
     };
 
-    pt.enter = function () {
+    sceneNavigatorPt.enter = function () {
         var self = this;
 
         this.changeToNextScene();
@@ -110,7 +110,7 @@ window.sceneNavigator = (function () {
         });
     };
 
-    pt.enterComplete = function () {
+    sceneNavigatorPt.enterComplete = function () {
         this.setIdling();
         this.checkState();
     };
