@@ -79,7 +79,6 @@ window.sceneNavigator = (function () {
             if (yes) {
                 self.exit();
             } else {
-                self.clearNextScene();
                 self.confirmExitCancel();
             }
         });
