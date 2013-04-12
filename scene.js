@@ -11,7 +11,9 @@
 window.scene = (function () {
     'use strict';
 
-    var scene = function () {};
+    var scene = function () {
+        this.state = exports.IS_ABSENT;
+    };
 
     var exports = function (args) {
         return new scene(args);
@@ -23,10 +25,6 @@ window.scene = (function () {
     exports.IS_ENTERING = 1;
     exports.IS_PRESENT = 2;
     exports.IS_EXITTING = 3;
-
-    pt.state = exports.IS_ABSENT;
-
-    pt.stateChange = function () {};
 
     // on enter decorator
     exports.OnEnterMethod = function (onEnter) {
