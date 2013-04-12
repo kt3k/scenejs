@@ -28,7 +28,8 @@ window.scene = (function () {
 
     pt.stateChange = function () {};
 
-    pt.methodOnEnter = function (onEnter) {
+    // on enter decorator
+    exports.OnEnterMethod = function (onEnter) {
         return function (done) {
             if (this.state !== exports.IS_ABSENT) {
                 throw 'failed to start the scene: scene is not stopped, state = ' + this.state;
@@ -47,7 +48,8 @@ window.scene = (function () {
         };
     };
 
-    pt.methodOnExit = function (onExit) {
+    // on exit decorator
+    exports.OnExitMethod = function (onExit) {
         return function (done) {
             if (this.state !== exports.IS_PRESENT) {
                 throw 'failed to stop the scene: scene is not running, state = ' + this.state;
