@@ -4,9 +4,9 @@
  */
 
 window.FactoryFactory = function (parent, create) {
+    'use strict';
 
     return function (additionals) {
-        'use strict';
 
         return (function () {
             var exports = function () {
@@ -20,7 +20,7 @@ window.FactoryFactory = function (parent, create) {
             var constructor = additionals.constructor;
             delete additionals.constructor;
 
-            constructor.super = parent;
+            constructor.__super__ = parent;
 
             var classPrototype = Class.prototype = exports.prototype = new parent();
 
@@ -60,13 +60,13 @@ window.SceneFactory = function (additionals) {
 
         Function.prototype.E = function (dtor) { return dtor(this); };
 
-        scenePrototype.onEnter = additionals.onEnter.E(scene.OnEnterMethod);
+        scenePrototype.onEnter = additionals.onEnter.E(window.scene.OnEnterMethod);
 
-        scenePrototype.onExit = additionals.onExit.E(scene.OnExitMethod);
+        scenePrototype.onExit = additionals.onExit.E(window.scene.OnExitMethod);
 
         Object.keys(additionals).forEach(function (key) {
             if (key === 'onExit' || key === 'onEnter') {
-                return
+                return;
             }
 
             scenePrototype[key] = additionals[key];
@@ -78,7 +78,9 @@ window.SceneFactory = function (additionals) {
     }());
 };
 
-window.SceneFactory = FactoryFactory(window.scene, function (prototype, additionals) {
+window.SceneFactory = window.FactoryFactory(window.scene, function (prototype, additionals) {
+    'use strict';
+
     prototype.onEnter = additionals.onEnter.E(window.scene.OnEnterMethod);
 
     prototype.onExit = additionals.onExit.E(window.scene.OnExitMethod);
@@ -88,6 +90,6 @@ window.SceneFactory = FactoryFactory(window.scene, function (prototype, addition
             return;
         }
 
-        scenePrototype[key] = additionals[key];
+        prototype[key] = additionals[key];
     });
 });
