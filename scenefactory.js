@@ -3,7 +3,7 @@
  * author: Yosiya Hinosawa ( @kt3k )
  */
 
-window.SceneFactory = function (additional) {
+window.SceneFactory = function (additionals) {
     'use strict';
 
     return (function () {
@@ -12,7 +12,7 @@ window.SceneFactory = function (additional) {
         };
 
         var Scene = function () {
-            additional.constructor.apply(this, arguments);
+            additionals.constructor.apply(this, arguments);
         };
 
         var scene = window.scene;
@@ -23,9 +23,17 @@ window.SceneFactory = function (additional) {
 
         Function.prototype.E = function (dtor) { return dtor(this); };
 
-        scenePrototype.onEnter = additional.onEnter.E(scene.OnEnterMethod);
+        scenePrototype.onEnter = additionals.onEnter.E(scene.OnEnterMethod);
 
-        scenePrototype.onExit = additional.onExit.E(scene.OnExitMethod);
+        scenePrototype.onExit = additionals.onExit.E(scene.OnExitMethod);
+
+        delete additionals.onExit;
+        delete additionals.onEnter;
+        delete additionals.constructor;
+
+        Object.keys(additionals).forEach(function (key) {
+            scenePrototype[key] = additionals[key];
+        });
 
         delete Function.prototype.E;
 
