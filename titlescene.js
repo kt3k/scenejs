@@ -3,24 +3,10 @@
  * author: Yosiya Hinosawa ( @kt3k )
  */
 
-window.TitleScene = (function () {
-    'use strict';
+window.TitleScene = SceneFactory({
+    constructor: function () {},
 
-    var exports = function () {
-        return new TitleScene();
-    };
-
-    var TitleScene = function () {};
-
-    var scene = window.scene;
-
-    var titlePrototype = TitleScene.prototype = exports.prototype = new scene();
-
-    titlePrototype.constructor = exports;
-
-    Function.prototype.E = function (dtor) { return dtor(this); };
-
-    titlePrototype.onEnter = function (done) {
+    onEnter: function (done) {
         this.title = window.div()
             .css({
                 position: 'absolute',
@@ -38,9 +24,9 @@ window.TitleScene = (function () {
             .setY(100)
             .callback(done)
             .transitionCommit();
-    }.E(scene.OnEnterMethod);
+    },
 
-    titlePrototype.onExit = function (done) {
+    onExit: function (done) {
         this.title
           .transition()
           .duration(500)
@@ -51,9 +37,4 @@ window.TitleScene = (function () {
           .remove()
           .transitionCommit();
     }
-    .E(scene.OnExitMethod);
-
-    delete Function.prototype.E;
-
-    return exports;
-}());
+});
