@@ -1,5 +1,5 @@
 /**
- * titlescene.js v0.1
+ * scenefactory.js v1.0
  * author: Yosiya Hinosawa ( @kt3k )
  */
 
