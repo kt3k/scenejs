@@ -27,11 +27,11 @@ window.SceneFactory = function (additionals) {
 
         scenePrototype.onExit = additionals.onExit.E(scene.OnExitMethod);
 
-        delete additionals.onExit;
-        delete additionals.onEnter;
-        delete additionals.constructor;
-
         Object.keys(additionals).forEach(function (key) {
+            if (key === 'onExit' || key === 'onEnter' || key === 'constructor') {
+                return
+            }
+
             scenePrototype[key] = additionals[key];
         });
 
