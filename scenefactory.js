@@ -82,14 +82,12 @@ window.SceneFactory = window.FactoryFactory(window.scene, function (prototype, a
     'use strict';
 
     prototype.onEnter = additionals.onEnter.E(window.scene.OnEnterMethod);
+    delete additionals.onEnter;
 
     prototype.onExit = additionals.onExit.E(window.scene.OnExitMethod);
+    delete additionals.onExit;
 
     Object.keys(additionals).forEach(function (key) {
-        if (key === 'onExit' || key === 'onEnter') {
-            return;
-        }
-
         prototype[key] = additionals[key];
     });
 });
