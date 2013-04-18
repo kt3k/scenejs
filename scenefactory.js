@@ -3,8 +3,10 @@
  * author: Yosiya Hinosawa ( @kt3k )
  */
 
-window.FactoryFactory = function (parent, create) {
+window.FactoryFactory = function (parent, modifier) {
     'use strict';
+
+    parent = parent || Object;
 
     return function (additionals) {
 
@@ -17,7 +19,7 @@ window.FactoryFactory = function (parent, create) {
                 constructor.apply(this, arguments);
             };
 
-            var constructor = additionals.constructor;
+            var constructor = additionals.constructor || parent;
             delete additionals.constructor;
 
             constructor.__super__ = parent;
@@ -26,11 +28,11 @@ window.FactoryFactory = function (parent, create) {
 
             classPrototype.constructor = exports;
 
-            Function.prototype.E = function (dtor) { return dtor(this); };
+            modifier(additionals);
 
-            create(classPrototype, additionals);
-
-            delete Function.prototype.E;
+            Object.keys(additionals).forEach(function (key) {
+                classPrototype[key] = additionals[key]
+            });
 
             return exports;
         }());
@@ -78,16 +80,10 @@ window.SceneFactory = function (additionals) {
     }());
 };
 
-window.SceneFactory = window.FactoryFactory(window.scene, function (prototype, additionals) {
+window.SceneFactory = window.FactoryFactory(window.scene, function (scenePrototype) {
     'use strict';
 
-    prototype.onEnter = additionals.onEnter.E(window.scene.OnEnterMethod);
-    delete additionals.onEnter;
+    scenePrototype.onEnter = window.scene.OnEnterMethod(scenePrototype.onEnter);
 
-    prototype.onExit = additionals.onExit.E(window.scene.OnExitMethod);
-    delete additionals.onExit;
-
-    Object.keys(additionals).forEach(function (key) {
-        prototype[key] = additionals[key];
-    });
+    scenePrototype.onExit = window.scene.OnExitMethod(scenePrototype.onExit);
 });
