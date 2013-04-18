@@ -22,7 +22,7 @@ window.FactoryFactory = function (parent, modifier) {
             var constructor = additionals.constructor || parent;
             delete additionals.constructor;
 
-            constructor.__super__ = parent;
+            constructor.parent = parent;
 
             var classPrototype = Class.prototype = exports.prototype = new parent();
 
