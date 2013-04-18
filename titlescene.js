@@ -4,8 +4,6 @@
  */
 
 window.TitleScene = SceneFactory({
-    constructor: function () {},
-
     onEnter: function (done) {
         this.title = window.div()
             .css({
