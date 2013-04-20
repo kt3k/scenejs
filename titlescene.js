@@ -3,7 +3,7 @@
  * author: Yosiya Hinosawa ( @kt3k )
  */
 
-window.TitleScene = SceneFactory({
+window.TitleScene = window.scene.branch({
     onEnter: function (done) {
         this.title = window.div()
             .css({

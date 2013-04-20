@@ -3,12 +3,13 @@
  * author: Yosiya Hinosawa ( @kt3k )
  */
 
-window.FactoryFactory = function (parent, modifier) {
+Function.prototype.setBranchGenerator = function (modifier) {
     'use strict';
 
-    parent = parent || Object;
+    var parent = this;
+    modifier = typeof modifier === 'function' ? modifier : function () {};
 
-    return function (additionals) {
+    this.branch = function (additionals) {
 
         return (function () {
             var exports = function () {
@@ -39,7 +40,7 @@ window.FactoryFactory = function (parent, modifier) {
     };
 };
 
-window.SceneFactory = window.FactoryFactory(window.scene, function (scenePrototype) {
+window.scene.setBranchGenerator(function (scenePrototype) {
     'use strict';
 
     scenePrototype.onEnter = window.scene.OnEnterMethod(scenePrototype.onEnter);
