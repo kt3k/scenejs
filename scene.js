@@ -2,6 +2,7 @@
  * scene.js 0.1.0
  * author: Yosiya Hinosawa ( @kt3k )
  * license: MIT License ( http://kt3k.mit-license.org/ )
+ * depends on: YLEP
  */
 
 /**
@@ -19,7 +20,7 @@ window.scene = (function () {
         return new scene(args);
     };
 
-    var pt = scene.prototype = exports.prototype = {constructor: exports};
+    var scenePrototype = scene.prototype = exports.prototype = {constructor: exports};
 
     exports.IS_ABSENT = 0;
     exports.IS_ENTERING = 1;
@@ -73,11 +74,11 @@ window.scene = (function () {
         scenePrototype.onExit = exports.OnExitMethod(scenePrototype.onExit);
     });
 
-    pt.onEnter = null;
+    scenePrototype.onEnter = null;
 
-    pt.onExit = null;
+    scenePrototype.onExit = null;
 
-    pt.onConfirmExit = function (reply) {
+    scenePrototype.onConfirmExit = function (reply) {
         var answer = true;
 
         if (this.exitConfirmNeeded) {
@@ -87,9 +88,9 @@ window.scene = (function () {
         reply(answer);
     };
 
-    pt.exitConfirmMessage = 'Do you want to leave this scene?';
+    scenePrototype.exitConfirmMessage = 'Do you really want to leave this scene?';
 
-    pt.exitConfirmNeeded = false;
+    scenePrototype.exitConfirmNeeded = false;
 
     return exports;
 }());
