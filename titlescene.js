@@ -3,9 +3,13 @@
  * author: Yosiya Hinosawa ( @kt3k )
  */
 
-window.TitleScene = window.scene.branch({
-    onEnter: function (done) {
-        this.title = window.div()
+window.Title = window.div.branch({
+    constructor: function (x) {
+        this.x = x;
+    },
+
+    appear: function (done) {
+        return this
             .css({
                 position: 'absolute',
                 top: '0px',
@@ -15,7 +19,7 @@ window.TitleScene = window.scene.branch({
                 backgroundImage: 'url(img/firefox-title.png)'
             })
             .setY(-300)
-            .setX(120)
+            .setX(this.x)
             .commit()
             .appendTo(window.document.body)
             .transition()
@@ -24,15 +28,31 @@ window.TitleScene = window.scene.branch({
             .transitionCommit();
     },
 
+    disapper: function (done) {
+        return this
+            .transition()
+            .duration(500)
+            .setY(400)
+            .css({opacity: 0})
+            .callback(done)
+            .transition()
+            .remove()
+            .transitionCommit();
+    }
+});
+
+window.TitleScene = window.scene.branch({
+    onEnter: function (done) {
+        this.title = window.Title(130).appear(done);
+
+        this.timer = window.setTimeout(function () {
+            window.location.href = "#scene=room";
+        }, 2000);
+    },
+
     onExit: function (done) {
-        this.title
-          .transition()
-          .duration(500)
-          .setY(400)
-          .css({opacity: 0})
-          .callback(done)
-          .transition()
-          .remove()
-          .transitionCommit();
+        this.title.disapper(done);
+
+        window.clearInterval(this.timer);
     }
 });
