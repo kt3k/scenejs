@@ -66,6 +66,13 @@ window.scene = (function () {
         };
     };
 
+    // branching method
+    exports.setBranchGenerator(function (scenePrototype) {
+        scenePrototype.onEnter = exports.OnEnterMethod(scenePrototype.onEnter);
+
+        scenePrototype.onExit = exports.OnExitMethod(scenePrototype.onExit);
+    });
+
     pt.onEnter = null;
 
     pt.onExit = null;
