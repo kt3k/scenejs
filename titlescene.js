@@ -3,9 +3,12 @@
  * author: Yosiya Hinosawa ( @kt3k )
  */
 
-window.Title = window.div.branch({
-    constructor: function (x) {
-        this.x = x;
+window.TitleImage = window.div.branch({
+    constructor: function (args) {
+        this.x = args.x;
+        this.y = args.y;
+        this.yMove = args.yMove;
+        this.img = args.img;
     },
 
     appear: function (done) {
@@ -14,16 +17,16 @@ window.Title = window.div.branch({
                 position: 'absolute',
                 top: '0px',
                 left: '0px',
-                width: '128px',
-                height: '128px',
-                backgroundImage: 'url(img/firefox-title.png)'
+                width: this.img.width + 'px',
+                height: this.img.height + 'px',
+                backgroundImage: 'url(' + this.img.src + ')'
             })
-            .setY(-300)
+            .setY(this.y - this.yMove)
             .setX(this.x)
             .commit()
             .appendTo(window.document.body)
             .transition()
-            .setY(100)
+            .setY(this.y)
             .callback(done)
             .transitionCommit();
     },
@@ -32,7 +35,7 @@ window.Title = window.div.branch({
         return this
             .transition()
             .duration(500)
-            .setY(400)
+            .setY(this.y + this.yMove)
             .css({opacity: 0})
             .callback(done)
             .transition()
@@ -43,7 +46,16 @@ window.Title = window.div.branch({
 
 window.TitleScene = window.scene.branch({
     onEnter: function (done) {
-        this.title = window.Title(130).appear(done);
+        this.title = window.TitleImage({
+            x: 130,
+            y: 100,
+            yMove: 400,
+            img: {
+                width: 128,
+                height: 128,
+                src: 'img/firefox-title.png'
+            }
+        }).appear(done);
 
         this.timer = window.setTimeout(function () {
             window.location.href = "#scene=room";
