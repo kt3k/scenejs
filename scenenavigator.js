@@ -18,12 +18,12 @@ window.sceneNavigator = (function () {
     exports.IS_IDLING = 0;
     exports.IS_TRANSITIONING = 1;
 
-    var sceneNavigatorPt = sceneNavigator.prototype = exports.prototype = {constructor: exports};
+    var sceneNavigatorPt = sceneNavigator.prototype = exports.prototype = {constructor: sceneNavigator};
 
-    sceneNavigatorPt.go = function (scene) {
+    sceneNavigatorPt.go = function (scene, cancelCallback) {
         this.setNextScene(scene);
 
-        this.checkState();
+        this.checkState(cancelCallback);
     };
 
     sceneNavigatorPt.isScene = function (scene) {
@@ -59,23 +59,25 @@ window.sceneNavigator = (function () {
         this.state = exports.IS_TRANSITIONING;
     };
 
-    sceneNavigatorPt.checkState = function () {
+    sceneNavigatorPt.checkState = function (cancelCallback) {
         if (this.hasNextScene() && this.isIdling()) {
-            this.transition();
+            this.transition(cancelCallback);
+        } else if (typeof cancelCallback === 'function') {
+            cancelCallback();
         }
     };
 
-    sceneNavigatorPt.transition = function () {
+    sceneNavigatorPt.transition = function (cancelCallback) {
         this.setTransitioning();
 
         if (this.currentScene == null) {
             this.enter();
         } else {
-            this.confirmExit();
+            this.confirmExit(cancelCallback);
         }
     };
 
-    sceneNavigatorPt.confirmExit = function () {
+    sceneNavigatorPt.confirmExit = function (cancelCallback) {
         var self = this;
 
         this.currentScene.onConfirmExit(function (yes) {
@@ -83,6 +85,10 @@ window.sceneNavigator = (function () {
                 self.exit();
             } else {
                 self.confirmExitCancel();
+
+                if (typeof cancelCallback === 'function') {
+                    cancelCallback();
+                }
             }
         });
     };
