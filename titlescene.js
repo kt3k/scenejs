@@ -4,14 +4,15 @@
  */
 
 window.TitleImage = window.div.branch({
-    constructor: function (args) {
+    constructor: function constructor(args) {
+        constructor.parent.call(this);
         this.x = args.x;
         this.y = args.y;
         this.yMove = args.yMove;
         this.img = args.img;
     },
 
-    appear: function (done) {
+    appear: function () {
         return this
             .css({
                 position: 'absolute',
@@ -27,18 +28,15 @@ window.TitleImage = window.div.branch({
             .appendTo(window.document.body)
             .transition()
             .setY(this.y)
-            .callback(done)
             .transitionCommit();
     },
 
-    disapper: function (done) {
+    disapper: function () {
         return this
             .transition()
             .duration(500)
             .setY(this.y + this.yMove)
             .css({opacity: 0})
-            .callback(done)
-            .transition()
             .remove()
             .transitionCommit();
     }
@@ -55,15 +53,19 @@ window.TitleScene = window.scene.branch({
                 height: 128,
                 src: 'img/firefox-title.png'
             }
-        }).appear(done);
+        })
+            .appear()
+            .callback(done);
 
         this.timer = window.setTimeout(function () {
             window.location.href = "#scene=room";
-        }, 2000);
+        }, 20000);
     },
 
     onExit: function (done) {
-        this.title.disapper(done);
+        this.title
+            .disapper()
+            .callback(done);
 
         window.clearInterval(this.timer);
     }
