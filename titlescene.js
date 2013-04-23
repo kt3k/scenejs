@@ -57,6 +57,8 @@ window.TitleScene = window.scene.branch({
             .appear()
             .callback(done);
 
+        this.flux = window.flux().init().start();
+
         this.timer = window.setTimeout(function () {
             window.location.href = "#scene=room";
         }, 20000);
@@ -66,6 +68,8 @@ window.TitleScene = window.scene.branch({
         this.title
             .disapper()
             .callback(done);
+
+        this.flux.stop();
 
         window.clearInterval(this.timer);
     }
