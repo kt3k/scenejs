@@ -3,16 +3,18 @@
  * author: Yosiya Hinosawa ( @kt3k )
  */
 
-window.TitleImage = window.div.branch({
-    constructor: function constructor(args) {
-        constructor.parent.call(this);
+window.TitleImage = window.div.branch(function (prototype, parent) {
+    'use strict';
+
+    prototype.constructor = function (args) {
+        parent.constructor.call(this);
         this.x = args.x;
         this.y = args.y;
         this.yMove = args.yMove;
         this.img = args.img;
-    },
+    };
 
-    appear: function () {
+    prototype.appear = function () {
         return this
             .css({
                 position: 'absolute',
@@ -29,9 +31,9 @@ window.TitleImage = window.div.branch({
             .transition()
             .setY(this.y)
             .transitionCommit();
-    },
+    };
 
-    disapper: function () {
+    prototype.disapper = function () {
         return this
             .transition()
             .duration(500)
@@ -39,11 +41,13 @@ window.TitleImage = window.div.branch({
             .css({opacity: 0})
             .remove()
             .transitionCommit();
-    }
+    };
 });
 
-window.TitleScene = window.scene.branch({
-    onEnter: function (done) {
+window.TitleScene = window.scene.branch(function (prototype) {
+    'use strict';
+
+    prototype.onEnter = function (done) {
         this.title = window.TitleImage({
             x: 130,
             y: 100,
@@ -60,11 +64,11 @@ window.TitleScene = window.scene.branch({
         this.flux = window.flux().init().start();
 
         this.timer = window.setTimeout(function () {
-            window.location.href = "#scene=room";
+            window.location.href = '#scene=room';
         }, 20000);
-    },
+    };
 
-    onExit: function (done) {
+    prototype.onExit = function (done) {
         this.title
             .disapper()
             .callback(done);
@@ -72,5 +76,5 @@ window.TitleScene = window.scene.branch({
         this.flux.stop();
 
         window.clearInterval(this.timer);
-    }
+    };
 });
