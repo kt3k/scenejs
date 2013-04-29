@@ -81,6 +81,18 @@ window.scene = (function () {
 
     scenePrototype.onExit = null;
 
+    scenePrototype.selector = 'body';
+
+    scenePrototype.setSelector = function (selector) {
+        this.selector = selector;
+
+        return this;
+    };
+
+    scenePrototype.getTargetDom = function () {
+        return window.document.querySelector(this.selector);
+    };
+
     scenePrototype.onConfirmExit = function (reply) {
         var answer = true;
 
