@@ -3,7 +3,7 @@
  * author: Yosiya Hinosawa ( @kt3k )
  */
 
-window.TitleImage = window.div.branch(function (prototype, parent) {
+window.TitleImage = window.div.branch(function (prototype, parent, decorators) {
     'use strict';
 
     prototype.constructor = function (args) {
@@ -15,36 +15,38 @@ window.TitleImage = window.div.branch(function (prototype, parent) {
     };
 
     prototype.appear = function () {
-        return this
-            .css({
-                position: 'absolute',
-                top: '0px',
-                left: '0px',
-                width: this.img.width + 'px',
-                height: this.img.height + 'px',
-                backgroundImage: 'url(' + this.img.src + ')'
-            })
-            .setY(this.y - this.yMove)
-            .setX(this.x)
-            .commit()
-            .appendTo(window.document.body)
-            .transition()
-            .setY(this.y)
-            .transitionCommit();
-    };
+        this
+        .css({
+            position: 'absolute',
+            top: '0px',
+            left: '0px',
+            width: this.img.width + 'px',
+            height: this.img.height + 'px',
+            backgroundImage: 'url(' + this.img.src + ')'
+        })
+        .setY(this.y - this.yMove)
+        .setX(this.x)
+        .commit()
+        .appendTo(window.document.body)
+        .transition()
+        .setY(this.y)
+        .transitionCommit();
+    }
+    .E(decorators.Chainable);
 
     prototype.disapper = function () {
-        return this
-            .transition()
-            .duration(500)
-            .setY(this.y + this.yMove)
-            .css({opacity: 0})
-            .remove()
-            .transitionCommit();
-    };
+        this
+        .transition()
+        .duration(500)
+        .setY(this.y + this.yMove)
+        .css({opacity: 0})
+        .remove()
+        .transitionCommit();
+    }
+    .E(decorators.Chainable);
 });
 
-window.TitleScene = window.scene.branch(function (prototype) {
+window.TitleScene = window.scene.branch(function (prototype, parent, decorators) {
     'use strict';
 
     prototype.onEnter = function (done) {
@@ -58,10 +60,12 @@ window.TitleScene = window.scene.branch(function (prototype) {
                 src: 'img/firefox-title.png'
             }
         })
-            .appear()
-            .callback(done);
+        .appear()
+        .callback(done);
 
-        this.flux = window.flux().init().start();
+        this.flow1 = window.flow().init(document.body, 0, 10000, -10).transition().duration(0).start().transitionCommit();
+        this.flow2 = window.flow().init(document.body, 100, 9000, -9).transition().duration(1000).start().transitionCommit();
+        this.flow3 = window.flow().init(document.body, 200, 8000, -8).transition().duration(2000).start().transitionCommit();
 
         this.timer = window.setTimeout(function () {
             window.location.href = '#scene=room';
@@ -69,11 +73,10 @@ window.TitleScene = window.scene.branch(function (prototype) {
     };
 
     prototype.onExit = function (done) {
-        this.title
-            .disapper()
-            .callback(done);
-
-        this.flux.stop();
+        this.title.disapper().callback(done);
+        this.flow1.stop();
+        this.flow2.stop();
+        this.flow3.stop();
 
         window.clearInterval(this.timer);
     };
