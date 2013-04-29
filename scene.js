@@ -2,7 +2,7 @@
  * scene.js 0.1.0
  * author: Yosiya Hinosawa ( @kt3k )
  * license: MIT License ( http://kt3k.mit-license.org/ )
- * depends on: YLEP
+ * dependencies: YLEP
  */
 
 /**
@@ -67,7 +67,7 @@ window.scene = (function () {
         };
     };
 
-    YLEP.executeOnContext(function () {
+    window.YLEP.executeOnContext(function () {
 
         // branching method
         exports.setBranchGenerator(function (scenePrototype) {
