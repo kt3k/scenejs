@@ -63,9 +63,9 @@ window.TitleScene = window.scene.branch(function (prototype, parent, decorators)
         .appear()
         .callback(done);
 
-        this.flow1 = window.flow().init(document.body, 0, 10000, -10).transition().duration(0).start().transitionCommit();
-        this.flow2 = window.flow().init(document.body, 100, 9000, -9).transition().duration(1000).start().transitionCommit();
-        this.flow3 = window.flow().init(document.body, 200, 8000, -8).transition().duration(2000).start().transitionCommit();
+        this.flow1 = window.flow().init(this.getTargetDom(), 0, 10000, -10).transition().duration(0).start().transitionCommit();
+        this.flow2 = window.flow().init(this.getTargetDom(), 100, 9000, -9).transition().duration(1000).start().transitionCommit();
+        this.flow3 = window.flow().init(this.getTargetDom(), 200, 8000, -8).transition().duration(2000).start().transitionCommit();
 
         this.timer = window.setTimeout(function () {
             window.location.href = '#scene=room';
