@@ -34,7 +34,7 @@ window.TitleImage = window.div.branch(function (prototype, parent, decorators) {
     }
     .E(decorators.Chainable);
 
-    prototype.disapper = function () {
+    prototype.disappear = function () {
         this
         .transition()
         .duration(500)
@@ -63,9 +63,9 @@ window.TitleScene = window.scene.branch(function (prototype, parent, decorators)
         .appear()
         .callback(done);
 
-        this.flow1 = window.flow().init(this.getTargetDom(), 0, 10000, -10).transition().duration(0).start().transitionCommit();
-        this.flow2 = window.flow().init(this.getTargetDom(), 100, 9000, -9).transition().duration(1000).start().transitionCommit();
-        this.flow3 = window.flow().init(this.getTargetDom(), 200, 8000, -8).transition().duration(2000).start().transitionCommit();
+        this.flow1 = window.flow().init(this.getTargetDom(), 0, 10000, -10).transition().duration(0).appear().transitionCommit();
+        this.flow2 = window.flow().init(this.getTargetDom(), 100, 9000, -9).transition().duration(1000).appear().transitionCommit();
+        this.flow3 = window.flow().init(this.getTargetDom(), 200, 8000, -8).transition().duration(2000).appear().transitionCommit();
 
         this.timer = window.setTimeout(function () {
             window.location.href = '#scene=room';
@@ -73,10 +73,10 @@ window.TitleScene = window.scene.branch(function (prototype, parent, decorators)
     };
 
     prototype.onExit = function (done) {
-        this.title.disapper().callback(done);
-        this.flow1.stop();
-        this.flow2.stop();
-        this.flow3.stop();
+        this.title.disappear().callback(done);
+        this.flow1.disappear();
+        this.flow2.disappear();
+        this.flow3.disappear();
 
         window.clearInterval(this.timer);
     };
