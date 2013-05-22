@@ -14,7 +14,7 @@ window.TitleImage = window.div.branch(function (prototype, parent, decorators) {
     }
     .E(decorators.Chainable);
 
-    prototype.appear = function () {
+    prototype.appear = function (done) {
         this
         .css({
             position: 'absolute',
@@ -30,17 +30,19 @@ window.TitleImage = window.div.branch(function (prototype, parent, decorators) {
         .appendTo(window.document.body)
         .transition()
         .setY(this.y)
+        .callback(done)
         .transitionCommit();
     }
     .E(decorators.Chainable);
 
-    prototype.disappear = function () {
+    prototype.disappear = function (done) {
         this
         .transition()
         .duration(500)
         .setY(this.y + this.yMove)
         .css({opacity: 0})
         .remove()
+        .callback(done)
         .transitionCommit();
     }
     .E(decorators.Chainable);
@@ -60,8 +62,7 @@ window.TitleScene = window.scene.branch(function (prototype, parent, decorators)
                 src: 'img/firefox-title.png'
             }
         })
-        .appear()
-        .callback(done);
+        .appear(done);
 
         this.flow1 = window.flow().init(this.getTargetDom(), 0, 10000, -10).transition().duration(0).appear().transitionCommit();
         this.flow2 = window.flow().init(this.getTargetDom(), 100, 9000, -9).transition().duration(1000).appear().transitionCommit();
@@ -73,7 +74,7 @@ window.TitleScene = window.scene.branch(function (prototype, parent, decorators)
     };
 
     prototype.onExit = function (done) {
-        this.title.disappear().callback(done);
+        this.title.disappear(done);
         this.flow1.disappear();
         this.flow2.disappear();
         this.flow3.disappear();
