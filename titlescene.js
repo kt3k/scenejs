@@ -6,13 +6,13 @@
 window.TitleImage = window.div.branch(function (prototype, parent, decorators) {
     'use strict';
 
-    prototype.constructor = function (args) {
-        parent.constructor.call(this);
+    prototype.init = function (args) {
         this.x = args.x;
         this.y = args.y;
         this.yMove = args.yMove;
         this.img = args.img;
-    };
+    }
+    .E(decorators.Chainable);
 
     prototype.appear = function () {
         this
@@ -50,7 +50,7 @@ window.TitleScene = window.scene.branch(function (prototype, parent, decorators)
     'use strict';
 
     prototype.onEnter = function (done) {
-        this.title = window.TitleImage({
+        this.title = window.TitleImage().init({
             x: 130,
             y: 100,
             yMove: 400,
