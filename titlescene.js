@@ -71,7 +71,8 @@ window.TitleScene = window.scene.branch(function (prototype, parent, decorators)
         this.timer = window.setTimeout(function () {
             window.location.href = '#scene=room';
         }, 20000);
-    };
+    }
+    .E(decorators.OnEnterMethod);
 
     prototype.onExit = function (done) {
         this.title.disappear(done);
@@ -80,5 +81,6 @@ window.TitleScene = window.scene.branch(function (prototype, parent, decorators)
         this.flow3.disappear();
 
         window.clearInterval(this.timer);
-    };
+    }
+    .E(decorators.OnExitMethod);
 });

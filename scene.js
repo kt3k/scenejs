@@ -9,37 +9,31 @@
  * define yggs scene interface
  */
 
-window.scene = (function () {
+window.scene = Object.branch(function (scenePrototype, parent, decorators) {
     'use strict';
 
-    var scene = function () {
-        this.state = exports.IS_ABSENT;
+    scenePrototype.constructor = function () {
+        this.state = IS_ABSENT;
     };
 
-    var exports = function (args) {
-        return new scene(args);
-    };
-
-    var scenePrototype = scene.prototype = exports.prototype = {constructor: exports};
-
-    exports.IS_ABSENT = 0;
-    exports.IS_ENTERING = 1;
-    exports.IS_PRESENT = 2;
-    exports.IS_EXITTING = 3;
+    var IS_ABSENT = 0;
+    var IS_ENTERING = 1;
+    var IS_PRESENT = 2;
+    var IS_EXITTING = 3;
 
     // on enter decorator
-    exports.OnEnterMethod = function (onEnter) {
+    decorators.OnEnterMethod = function (onEnter) {
         return function (done) {
-            if (this.state !== exports.IS_ABSENT) {
+            if (this.state !== IS_ABSENT) {
                 throw 'failed to start the scene: scene is not stopped, state = ' + this.state;
             }
 
-            this.state = exports.IS_ENTERING;
+            this.state = IS_ENTERING;
 
             var self = this;
 
             var wrappedDone = function () {
-                self.state = exports.IS_PRESENT;
+                self.state = IS_PRESENT;
                 done();
             };
 
@@ -48,18 +42,18 @@ window.scene = (function () {
     };
 
     // on exit decorator
-    exports.OnExitMethod = function (onExit) {
+    decorators.OnExitMethod = function (onExit) {
         return function (done) {
-            if (this.state !== exports.IS_PRESENT) {
+            if (this.state !== IS_PRESENT) {
                 throw 'failed to stop the scene: scene is not running, state = ' + this.state;
             }
 
-            this.state = exports.IS_EXITTING;
+            this.state = IS_EXITTING;
 
             var self = this;
 
             var wrappedDone = function () {
-                self.state = exports.IS_ABSENT;
+                self.state = IS_ABSENT;
                 done();
             };
 
@@ -67,15 +61,8 @@ window.scene = (function () {
         };
     };
 
-    window.YLEP.executeOnContext(function () {
-
-        // branching method
-        exports.setBranchGenerator(function (scenePrototype) {
-            scenePrototype.onEnter = exports.OnEnterMethod(scenePrototype.onEnter);
-
-            scenePrototype.onExit = exports.OnExitMethod(scenePrototype.onExit);
-        });
-    });
+    // branching method
+    this.setBranchGenerator();
 
     scenePrototype.onEnter = null;
 
@@ -106,6 +93,4 @@ window.scene = (function () {
     scenePrototype.exitConfirmMessage = 'Do you really want to leave this scene?';
 
     scenePrototype.exitConfirmNeeded = false;
-
-    return exports;
-}());
+});
