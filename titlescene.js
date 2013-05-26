@@ -10,7 +10,9 @@ window.TitleImage = window.div.branch(function (prototype, parent, decorators) {
         this.x = args.x;
         this.y = args.y;
         this.yMove = args.yMove;
-        this.img = args.img;
+        this.width = args.width;
+        this.height = args.height;
+        this.src = args.src;
     }
     .E(decorators.Chainable);
 
@@ -20,9 +22,9 @@ window.TitleImage = window.div.branch(function (prototype, parent, decorators) {
             position: 'absolute',
             top: '0px',
             left: '0px',
-            width: this.img.width + 'px',
-            height: this.img.height + 'px',
-            backgroundImage: 'url(' + this.img.src + ')'
+            width: this.width + 'px',
+            height: this.height + 'px',
+            backgroundImage: 'url(' + this.src + ')'
         })
         .setY(this.y - this.yMove)
         .setX(this.x)
@@ -56,11 +58,9 @@ window.TitleScene = window.scene.branch(function (prototype, parent, decorators)
             x: 130,
             y: 100,
             yMove: 400,
-            img: {
-                width: 128,
-                height: 128,
-                src: 'img/firefox-title.png'
-            }
+            width: 128,
+            height: 128,
+            src: 'img/firefox-title.png'
         })
         .appear(done);
 
